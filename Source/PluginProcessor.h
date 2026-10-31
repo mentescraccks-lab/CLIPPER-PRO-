@@ -1,5 +1,12 @@
 #pragma once
 #include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_dsp/juce_dsp.h>
+#include <array>
+#include <atomic>
+#include <memory>
+#include <vector>
+#include "DSP/ClipperDSP.h"
+#include "DSP/Metering.h"
 
 namespace ParamID
 {
@@ -42,8 +49,19 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     juce::AudioProcessorValueTreeState apvts;
+    ClipperMeters meters;
 
 private:
+    void processChunk (juce::AudioBuffer<float>& buffer, int start, int num);
+    void applyOversamplingChoice (int index);
+
+    std::atomic<float> *pDrive {}, *pAmount {}, *pCeiling {}, *pOutput {}, *pMode {}, *pOs {}, *pLink {}, *pBypass {};
+
+    juce::SmoothedValue<float> preGain, ceilGain, outGain;
+    std::array<std::unique_ptr<juce::dsp::Oversampling<float>>, 5> oversamplers; // [0] = 1x (no se usa)
+    std::vector<float> ceilBuf, outBuf;
+    int maxBlock = 512, activeOs = 0, numChannelsPrepared = 2;
+
     static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ClipperAudioProcessor)
 };

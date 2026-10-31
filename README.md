@@ -1,7 +1,7 @@
-# CLIPPER (Fase 1: base compilable)
+# CLIPPER (Fase 2: motor DSP)
 
-Plugin VST3 para Windows x64 (JUCE 8.0.4 + CMake). Estado: **solo implementado, NO compilado ni probado**.
-La Fase 1 contiene los 8 parámetros (APVTS), guardado de estado y un editor genérico; el audio pasa sin procesar.
+Plugin VST3 para Windows x64 (JUCE 8.0.4 + CMake). Estado: DSP implementado (hard/soft clip, oversampling 1x-16x, medidores, suavizado). Las pruebas del DSP puro se ejecutan con ctest; el resto está pendiente de compilar en GitHub Actions.
+Interfaz: editor genérico provisional (la interfaz analógica llega en la Fase 3).
 
 ## Compilar con GitHub Actions
 1. Sube todo el contenido de esta carpeta a la raíz del repositorio (rama `main`).

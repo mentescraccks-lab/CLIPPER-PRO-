@@ -39,3 +39,9 @@ target_link_libraries(CLIPPER
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_warning_flags)
+
+# Pruebas del DSP puro (sin JUCE)
+enable_testing()
+add_executable(ClipperDSPTests Tests/DSPTests.cpp)
+target_compile_features(ClipperDSPTests PRIVATE cxx_std_17)
+add_test(NAME ClipperDSPTests COMMAND ClipperDSPTests)
