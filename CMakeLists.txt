@@ -23,6 +23,11 @@ juce_add_plugin(CLIPPER
     NEEDS_MIDI_OUTPUT FALSE
     COPY_PLUGIN_AFTER_BUILD FALSE)
 
+# Imágenes de la interfaz embebidas en el plugin
+file(GLOB CLIPPER_IMAGES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/Resources/img/*.png)
+juce_add_binary_data(ClipperAssets SOURCES ${CLIPPER_IMAGES})
+set_target_properties(ClipperAssets PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+
 target_sources(CLIPPER PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginEditor.cpp)
@@ -34,6 +39,7 @@ target_compile_definitions(CLIPPER PUBLIC
 
 target_link_libraries(CLIPPER
     PRIVATE
+        ClipperAssets
         juce::juce_audio_utils
         juce::juce_dsp
     PUBLIC
